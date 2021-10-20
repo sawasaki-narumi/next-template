@@ -1,34 +1,39 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## start
+* docker-compose -d
+* yarn hasura console --project hasura
 
-## Getting Started
+## general
+* npx create-next-app@latest --ts
+* tsconfig.jsonにbaseUrl="."とpaths={"@/*":["src/*"]}を設定
+* pagesディレクトリを削除し、src/pagesとsrc/componentsを追加
 
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
+# prettier
+* vs codeの設定( https://fwywd.com/tech/next-eslint-prettier )( 他の設定は無視 )
+* yarn add -D prettier eslint-config-prettier
+  * vs codeのprettier extensionはlocalにprettierがインストールされていなければextensionにbundleされたprettierを使う
+* prettierの設定はpackage.jsonに書く
+* ↓ vs codeのprettier extensionの設定
 ```
+  // デフォルトのフォーマッタを prettier に設定
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  // ファイル保存時、prettier による自動フォーマット
+  "editor.formatOnSave": true,
+  // ファイル保存時、ESLint による自動フォーマット
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  }
+```
+* eslintの設定はnextの初期状態の物を使う(core-web-vitals)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# hasura
+* hasuraのdocker-compose.ymlを引っ張ってくる
+* docker-compose.ymlのPG_DATABSE_URLをHASURA_GRAPHQL_DATABSE_URLに変更する
+* yarn add -D hasura-cli
+* yarn hasura init hasura
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+# graphql
+* yarn add @apollo/react-hooks @apollo/client graphql
+* yarn add -D @graphql-codegen/cli @graphql-codegen/typescript @graphql-codegen/typescript-react-apollo
+* codegen.ymlを引っ張ってくる
+* .eslintignoreと.prettierignoreにsrc/generatedを追記
+* _app.jsを引っ張ってくる
